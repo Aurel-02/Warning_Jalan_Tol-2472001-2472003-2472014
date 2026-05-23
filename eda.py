@@ -1,7 +1,8 @@
 import pandas as pd
 import os
 
-path = r"E:\SEM 4\KECEMES\Warning_Jalan_Tol-2472001-2472003-2472014\dataset\dataset_gabungan.csv"
+script_dir = os.path.dirname(os.path.abspath(__file__))
+path = os.path.join(script_dir, "dataset", "dataset_gabungan.csv")
 df = pd.read_csv(path)
 
 print("=== INFO DATASET ===")
@@ -14,7 +15,7 @@ print(df['source_dataset'].value_counts())
 
 print("\n=== CEK PATH GAMBAR ===")
 old_base_path = r"E:\sem 4\kecemes\dataset"
-new_base_path = r"E:\SEM 4\KECEMES\Warning_Jalan_Tol-2472001-2472003-2472014\dataset"
+new_base_path = os.path.join(script_dir, "dataset")
 
 print("Contoh path asli di csv:")
 print(df['image_path'].iloc[0])

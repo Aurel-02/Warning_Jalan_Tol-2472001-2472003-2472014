@@ -2,7 +2,8 @@ import os
 import glob
 import csv
 
-BASE_DIR = r"E:\sem 4\kecemes\dataset"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = SCRIPT_DIR
 OUTPUT_CSV = os.path.join(BASE_DIR, "dataset_gabungan.csv")
 
 def find_image_for_label(label_path):

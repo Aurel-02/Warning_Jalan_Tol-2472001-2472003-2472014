@@ -7,9 +7,10 @@ from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 
 # Konstanta
-CSV_PATH = r"E:\SEM 4\KECEMES\Warning_Jalan_Tol-2472001-2472003-2472014\dataset\dataset_gabungan.csv"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CSV_PATH = os.path.join(SCRIPT_DIR, "dataset", "dataset_gabungan.csv")
 OLD_BASE_PATH = r"E:\sem 4\kecemes\dataset"
-NEW_BASE_PATH = r"E:\SEM 4\KECEMES\Warning_Jalan_Tol-2472001-2472003-2472014\dataset"
+NEW_BASE_PATH = os.path.join(SCRIPT_DIR, "dataset")
 SAMPLE_SIZE = 15000
 IMG_SIZE = 64 # Ukuran gambar untuk CNN (64x64)
 
