@@ -5,9 +5,10 @@ from PIL import Image, ImageTk
 import torch
 import torch.nn as nn
 import threading
-import pyttsx3
 import time
 import os
+from gtts import gTTS
+import pygame
 
 # --- Arsitektur Model CNN ---
 class TollRoadCNN(nn.Module):
@@ -38,33 +39,31 @@ class TollRoadCNN(nn.Module):
 # --- Sistem Agentic AI ---
 class AgenticAI:
     def __init__(self):
-        # Inisialisasi engine Text-to-Speech
-        self.engine = pyttsx3.init()
-        # Atur kecepatan bicara (words per minute)
-        self.engine.setProperty('rate', 150)
-        # Ambil suara bahasa indonesia jika tersedia, atau bahasa inggris secara default
-        voices = self.engine.getProperty('voices')
-        self.engine.setProperty('voice', voices[0].id) 
-        
         self.is_alarming = False
+        
+        # Nama file audio sementara
+        self.audio_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "alarm_suara.mp3")
+        
+        # Buat suara robot logat Indonesia yang sangat jernih (menggunakan Google TTS)
+        if not os.path.exists(self.audio_file):
+            print("Membuat file suara alarm bahasa Indonesia...")
+            tts = gTTS(text="Awas! Anda mengantuk! Silakan bangun dan menepi!", lang='id')
+            tts.save(self.audio_file)
+            
+        # Inisialisasi pemutar musik
+        pygame.mixer.init()
+        pygame.mixer.music.load(self.audio_file)
 
     def play_alarm(self):
-        self.is_alarming = True
-        def alarm_thread():
-            while self.is_alarming:
-                # Menggunakan engine pyttsx3 pada thread terpisah
-                # karena runAndWait() memblokir eksekusi
-                temp_engine = pyttsx3.init()
-                temp_engine.setProperty('rate', 150)
-                temp_engine.say("Peringatan! Anda mengantuk! Segera bangun!")
-                temp_engine.runAndWait()
-                time.sleep(0.5)
-                
-        # Jalankan di daemon thread agar tidak memblokir GUI Tkinter
-        threading.Thread(target=alarm_thread, daemon=True).start()
+        if not self.is_alarming:
+            self.is_alarming = True
+            # Play dengan parameter -1 berarti akan terus diulang (loop) sampai dimatikan
+            pygame.mixer.music.play(-1)
 
     def stop_alarm(self):
-        self.is_alarming = False
+        if self.is_alarming:
+            pygame.mixer.music.stop()
+            self.is_alarming = False
 
     def find_nearest_rest_area(self):
         # Simulasi Pintar: Fungsi ini bertindak seperti Tool Call LLM
