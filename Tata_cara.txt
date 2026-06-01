@@ -1,0 +1,6 @@
+cara liat modelnya adalah 
+- python 06_predict.py
+
+atau bisa liat langsung di excel tapi dia isinya cuman angka yang artinya bisa di baca sama program ini
+0 = open
+1 = closed
