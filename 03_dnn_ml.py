@@ -7,15 +7,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 
 # load data yang sudah diproses
-X = np.load('X_cnn.npy')
-y = np.load('y.npy')
+X_train_raw = np.load('X_cnn_train.npy')
+y_train_raw = np.load('y_train.npy')
+X_test = np.load('X_cnn_test.npy')
+y_test = np.load('y_test.npy')
 
 # ubah shape agar sesuai format PyTorch (batch, channel, height, width)
-X = X.transpose(0, 3, 1, 2)
+X_train_raw = X_train_raw.transpose(0, 3, 1, 2)
+X_test = X_test.transpose(0, 3, 1, 2)
 
-# bagi dataset jadi train (80%), val (10%), dan test (10%)
-X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=0.1, random_state=42, stratify=y)
-X_train, X_val, y_train, y_val = train_test_split(X_temp, y_temp, test_size=0.1111, random_state=42, stratify=y_temp)
+# bagi training data jadi train (90%) dan val (10%) untuk training & validation
+X_train, X_val, y_train, y_val = train_test_split(X_train_raw, y_train_raw, test_size=0.1, random_state=42, stratify=y_train_raw)
 
 # dataset & dataloader untuk training
 train_dataset = TensorDataset(torch.tensor(X_train), torch.tensor(y_train, dtype=torch.long))

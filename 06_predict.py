@@ -36,9 +36,9 @@ model = TollRoadCNN()
 model.load_state_dict(torch.load('toll_road_cnn.pth'))
 model.eval()
 
-# load dataset gabungan untuk mengambil sampel gambar secara acak
+# load dataset mrl untuk mengambil sampel gambar secara acak
 script_dir = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(script_dir, "dataset", "dataset_gabungan.csv")
+csv_path = os.path.join(script_dir, "dataset", "dataset_mrl.csv")
 df = pd.read_csv(csv_path)
 
 # perbaiki path lokal

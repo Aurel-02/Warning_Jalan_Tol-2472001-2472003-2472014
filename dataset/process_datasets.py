@@ -117,19 +117,30 @@ def process_yolo2(records):
                             records.append((img_path, label, "yolo_dataset_2 (dms)"))
 
 def main():
-    records = [] # (image_path, label, source)
-    process_mrl(records)
-    process_drowsy(records)
-    process_yolo1(records)
-    process_yolo2(records)
+    mrl_records = []
+    process_mrl(mrl_records)
     
-    print(f"Total valid records found: {len(records)}")
+    other_records = []
+    process_drowsy(other_records)
+    process_yolo1(other_records)
+    process_yolo2(other_records)
     
+    print(f"Total MRL records found: {len(mrl_records)}")
+    print(f"Total other records found: {len(other_records)}")
+    
+    # Save MRL records
+    mrl_csv = os.path.join(BASE_DIR, "dataset_mrl.csv")
+    with open(mrl_csv, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(['image_path', 'label', 'source_dataset'])
+        writer.writerows(mrl_records)
+    print(f"Successfully saved to {mrl_csv}")
+    
+    # Save other records to dataset_gabungan.csv
     with open(OUTPUT_CSV, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(['image_path', 'label', 'source_dataset'])
-        writer.writerows(records)
-        
+        writer.writerows(other_records)
     print(f"Successfully saved to {OUTPUT_CSV}")
 
 if __name__ == "__main__":

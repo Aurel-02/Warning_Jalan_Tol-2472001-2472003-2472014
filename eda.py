@@ -2,16 +2,30 @@ import pandas as pd
 import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-path = os.path.join(script_dir, "dataset", "dataset_gabungan.csv")
-df = pd.read_csv(path)
+path_gabungan = os.path.join(script_dir, "dataset", "dataset_gabungan.csv")
+path_mrl = os.path.join(script_dir, "dataset", "dataset_mrl.csv")
 
-print("=== INFO DATASET ===")
-print(f"Total baris: {len(df)}")
-print(f"Total kolom: {len(df.columns)}")
-print("\n=== DISTRIBUSI LABEL ===")
-print(df['label'].value_counts())
-print("\n=== DISTRIBUSI SOURCE DATASET ===")
-print(df['source_dataset'].value_counts())
+df_gabungan = pd.read_csv(path_gabungan)
+df_mrl = pd.read_csv(path_mrl)
+
+print("=== INFO DATASET GABUNGAN (TRAIN) ===")
+print(f"Total baris: {len(df_gabungan)}")
+print(f"Total kolom: {len(df_gabungan.columns)}")
+print("\n=== DISTRIBUSI LABEL GABUNGAN ===")
+print(df_gabungan['label'].value_counts())
+print("\n=== DISTRIBUSI SOURCE DATASET GABUNGAN ===")
+print(df_gabungan['source_dataset'].value_counts())
+
+print("\n" + "="*40)
+print("=== INFO DATASET MRL (TEST) ===")
+print(f"Total baris: {len(df_mrl)}")
+print(f"Total kolom: {len(df_mrl.columns)}")
+print("\n=== DISTRIBUSI LABEL MRL ===")
+print(df_mrl['label'].value_counts())
+print("\n=== DISTRIBUSI SOURCE DATASET MRL ===")
+print(df_mrl['source_dataset'].value_counts())
+
+df = df_mrl # fallback for the rest of path checks in the script
 
 print("\n=== CEK PATH GAMBAR ===")
 old_base_path = r"E:\sem 4\kecemes\dataset"

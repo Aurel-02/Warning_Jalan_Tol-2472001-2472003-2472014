@@ -8,13 +8,13 @@ import time
 
 def main():
     print("Memuat data hasil ekstraksi HOG...")
-    X_hog = np.load('X_hog.npy')
-    y = np.load('y.npy')
+    X_train = np.load('X_hog_train.npy')
+    y_train = np.load('y_train.npy')
+    X_test = np.load('X_hog_test.npy')
+    y_test = np.load('y_test.npy')
     
-    print(f"Bentuk data: X = {X_hog.shape}, y = {y.shape}")
-    
-    print("\nMembagi data menjadi set Pelatihan (80%) dan Pengujian (20%)...")
-    X_train, X_test, y_train, y_test = train_test_split(X_hog, y, test_size=0.2, random_state=42, stratify=y)
+    print(f"Bentuk data Train: X = {X_train.shape}, y = {y_train.shape}")
+    print(f"Bentuk data Test: X = {X_test.shape}, y = {y_test.shape}")
     
     print("Distribusi Kelas pada Data Train:")
     unique, counts = np.unique(y_train, return_counts=True)
